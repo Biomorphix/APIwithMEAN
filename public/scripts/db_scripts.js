@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');		
 var fs = require('fs')
-
+var mongo_server = 'mongodb://localhost/students';
+var async = require('async')
 var studentSchema = mongoose.Schema({
 				first: String,
 				second: String,
@@ -22,7 +23,8 @@ var Student = mongoose.model('Student', studentSchema);
 
 dbControl = {
 	addStudent: function(first, second, age, sex, phone, infor, web,  math, history, databases, electro){
-		mongoose.connect('mongodb://localhost/students');
+
+		mongoose.connect(mongo_server);
 		var db = mongoose.connection;
 		db.once('open', function(){
 			var tempStudent = new Student({
@@ -41,44 +43,55 @@ dbControl = {
 				}
 				
 			})
-			console.log(tempStudent)
-			tempStudent.save()
+			console.log(tempStudent);
+			tempStudent.save();
 			mongoose.disconnect();
 		})
+		
 	}, 
 	findAllStudents: function(callback){
-		mongoose.connect('mongodb://localhost/students');
-		var db = mongoose.connection;
-		db.once('open', function(){
-			Student.find(function(error, students){
-				if(error){
-					console.log('ERROR: ' + error);
-					mongoose.disconnect();
-				} else {
-					callback(students);
-					mongoose.disconnect();
+	
+			mongoose.connect(mongo_server);
+			var db = mongoose.connection;
+
+			db.once('open', function(){
+				Student.find(function(error, students){
+					if(error){
+						console.log('ERROR: ' + error);
+						mongoose.disconnect();
+					} else {						
+						callback(students);
+						mongoose.disconnect();
 				}
+				
 			})
-		})
+				
+			})
+			
+
+
 	},
 	remove: function(id){
-		mongoose.connect('mongodb://localhost/students');
+		mongoose.connect(mongo_server);
 		var db = mongoose.connection;
 		db.once('open', function(){
 			var query = Student.find().remove({_id: id});
 			query.exec();
 			mongoose.disconnect();
 		})
+		
 	}, 
 	findOne: function(id, callback){
-		mongoose.connect('mongodb://localhost/students');
+		mongoose.connect(mongo_server);
 		var db = mongoose.connection;
 		db.once('open', function(){
-			Student.findById(id, function(err, student){
+			Student.findById(id, function(err, student){				
 				callback(student);
-				mongoose.disconnect();
+				mongoose.disconnect();				
 			})
+			
 		})
+		
 	},
 	update: function(id, data){
 		mongoose.connect('mongodb://localhost/students');
@@ -100,7 +113,9 @@ dbControl = {
 				doc.save();
 				mongoose.disconnect();
 			})
+			
 		})
+		
 	}
 }
 

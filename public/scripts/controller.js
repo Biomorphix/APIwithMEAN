@@ -1,23 +1,23 @@
-var myApp = angular.module('myApp', []);
+var myApp = angular.module('Web_practice', []);
 
 myApp.controller('AppCtrl', ['$scope', '$http', function($scope, $http) {
 	function refresh(){
-		$http({
-			method: "GET",
-			url: "/contactlist"
-		}).then(function(response){
-			$scope.students = response.data;
-		}, function(){
-			console.log('Дрочево с закрытием соединения с бд')
-			refresh();
-		})
-	}
+		setTimeout(function(){
+			$http({
+				method: "GET",
+				url: "/contactlist"
+			}).then(function(response){
+				$scope.students = response.data;
+			}, function(){
+				refresh();
+			})
+		}, 30)		
+	};
 
 	refresh();
 
 	$scope.addStudent = function(){
 		$http.post('/contactlist', $scope.student).success(function(){
-
 			refresh();
 		});		
 	}
@@ -25,7 +25,8 @@ myApp.controller('AppCtrl', ['$scope', '$http', function($scope, $http) {
 	$scope.remove = function(id){
 		console.log(id)
 		$http.delete('/contactlist/' + id).success(function(){
-			refresh();
+				refresh();
+
 		});	
 	}
 
