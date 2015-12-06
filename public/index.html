@@ -1,0 +1,136 @@
+<html ng-app="myApp">
+<head>
+	<title>Mongo db</title>
+	<meta charset="utf-8">
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
+	<link href='https://fonts.googleapis.com/css?family=PT+Sans&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="./styles.css">
+
+</head>
+<body>
+
+
+		<div class="container" ng-controller="AppCtrl">
+			<center><h1>Веб-практика</h1></center>
+			<br><br>
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Имя</th>
+						<th>Фамилия</th>
+						<th>Дата рождения</th>
+						<th>Пол</th>
+						<th>Телефон</th>
+						<th>Оценки по лабораторным</th>
+						<th>Действие</th>
+						<th>&nbsp;</th>
+						<th>&nbsp;</th>
+
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="controls">
+						<td><input class="form-control" ng-model="student.first"></td>
+						<td><input class="form-control" ng-model="student.second"></td>
+						<td><input class="form-control" ng-model="student.age" type="Date"></td>
+						<td>
+							<select name="" id="" class="form-control" ng-model="student.sex">
+								<option value="Мужской">Мужской</option>
+								<option value="Женский">Женский</option>
+							</select>			
+						</td>
+						<td><input class="form-control" ng-model="student.phone"></td>
+						<td><button class="btn btn-primary" data-toggle="modal" data-target="#myModal">Поставить</button></td>
+							<!-- Modal -->
+							<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+							  <div class="modal-dialog" role="document">
+							    <div class="modal-content">
+							      <div class="modal-header">
+							        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							        <h4 class="modal-title" id="myModalLabel">Поставить оценки по лабораторным</h4>
+							      </div>
+							      <div class="modal-body">
+							        		<p>Информатика
+							        		<input type="number" ng-model="student.infor"></p>
+							        		<p>Веб-программирование
+							        		<input type="number" ng-model="student.web"></p>
+							        		<p>Матлогика
+							        		<input type="number" ng-model="student.math"></p>
+							        		<p>История
+							        		<input type="number" ng-model="student.history"></p>
+							        		<p>Базы данных
+							        		<input type="number" ng-model="student.db"></p>
+							        		<p>Электротехника
+							        		<input type="number" ng-model="student.electro"></p>       	
+							      </div>
+							      <div class="modal-footer">
+							        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+							      </div>
+							    </div>
+							  </div>
+							</div>
+						<td><button class="btn btn-primary" ng-click="addStudent()">Добавить студента</button></td>
+						<td><button class="btn btn-info updating tools" ng-click="update()">Обновить
+							<span>Заполните формы и нажмите<br> эту кнопку, чтобы обновить данные</span>
+							</button></td>
+					</tr>
+					<div>
+						
+					</div>
+					<tr class="student_row" ng-repeat="student in students" >
+						<td ng-click='information(student)'>{{student.first}}</td>
+						<td ng-click='information(student)'>{{student.second}}</td>
+						<td ng-click='information(student)'>{{student.age}}</td>
+						<td ng-click='information(student)'>{{student.sex}}</td>
+						<td ng-click='information(student)'>{{student.phone}}</td>
+						<td ng-click='information(student)'>Нажмите, чтобы открыть подробное окно</td>
+						<td><button class="btn btn-danger" ng-click="remove(student._id)">Удалить</button></td>
+						<td><button class="btn btn-warning" ng-click="edit(student._id)">Редактировать</button></td>
+						<!-- Modal -->
+						<td>
+							<div class="modal fade" id="secondModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+							<div class="modal-dialog" role="document">
+								<div class="modal-content">
+								<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-	hidden="true">&times;</span></button>
+								    <h4 class="modal-title" id="SecondModalLabel">{{current.first}} {{current.second}}</h4>
+								</div>
+								<div class="modal-body">
+								    <p>Имя: {{current.first}}</p>
+								    <p>Фамилия: {{current.second}}</p>
+								    <p>Родиллся: {{current.age}}</p>
+								    <p>Пол: {{current.sex}}</p>
+								    <p>Номер телефона: {{current.phone}}</p>
+								    <p>Оценки по лабораторным: </p>
+								    <ul>
+								    	<li>Информатика: {{current.labs.informatics}}</li>
+								    	<li>Веб-программирование: {{current.labs.web}}</li>
+								    	<li>Матлогика: {{current.labs.mathlogic}}</li>
+								    	<li>История: {{current.labs.history}}</li>
+								    	<li>Базы данных: {{current.labs.databases}}</li>
+								    	<li>Электротехника: {{current.labs.electro}}</li>
+								    </ul>
+								</div>
+								<div class="modal-footer">
+								    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+								    <button class="btn btn-warning" ng-click="edit(student._id)" data-dismiss="modal">Редактировать</button>
+								</div>
+								</div>
+								  </div>
+								</div>
+							</td>							
+					</tr>
+					
+				</tbody>	
+			</table>	
+		</div>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0-beta.2/angular.min.js"></script>
+	<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	<script src="scripts/controller.js"></script>
+</body>
+</html>
