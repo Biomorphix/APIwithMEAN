@@ -1,9 +1,7 @@
 Windows:
-1. Установить MongoDB https://www.mongodb.org/
-2. Установить python 2.7.0 https://www.python.org/
-3. Установить nodejs https://www.nodejs.org/
-4. В консоли из под директории с проектом выполнить $npm install
-5. Запустить mongod.exe из папки, куда установлен mongodb
-6. В консоли из под директории с проектом выполнить $node server.js
-7. Зайти на http://localhost:3000/
+1. Установить python 2.7.0 https://www.python.org/
+2. Установить nodejs https://www.nodejs.org/
+3. В консоли из под директории с проектом выполнить $npm install
+4. В консоли из под директории с проектом выполнить $npm start
+5. Зайти на http://localhost:8080/
 
