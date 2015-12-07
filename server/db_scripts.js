@@ -1,7 +1,8 @@
 var mongoose = require('mongoose');		
-var fs = require('fs')
 var mongo_server = 'mongodb://localhost/students';
 var async = require('async')
+
+
 var studentSchema = mongoose.Schema({
 				first: String,
 				second: String,
@@ -59,9 +60,9 @@ dbControl = {
 					if(error){
 						console.log('ERROR: ' + error);
 						mongoose.disconnect();
-					} else {						
-						callback(students);
+					} else {
 						mongoose.disconnect();
+            callback(students);
 				}
 				
 			})
@@ -86,8 +87,8 @@ dbControl = {
 		var db = mongoose.connection;
 		db.once('open', function(){
 			Student.findById(id, function(err, student){				
-				callback(student);
-				mongoose.disconnect();				
+				mongoose.disconnect();		
+        callback(student);        
 			})
 			
 		})

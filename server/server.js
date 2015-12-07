@@ -1,18 +1,18 @@
 var express = require('express')
 var bodyParser = require('body-parser');
-var dbControl = require('./public/scripts/db_scripts').dbControl;
+var dbControl = require('./db_scripts').dbControl;
 app = express();
 
 console.log(dbControl)
 
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '../client/public'));
 app.use(bodyParser.json());
 
 
 app.get('/contactlist', function (req, res) {
  	 console.log('I received a GET request');
  	 dbControl.findAllStudents(function(students){
- 	 	res.json(students)
+      res.json(students)
  	 })
 })
 
