@@ -5,7 +5,7 @@ var studentSchema = mongoose.Schema({
 	second: String,
 	age: Date,
 	sex: String,
-	phone: Number,
+	phone: String,
 	labs: {
 		informatics: Number,
 		web: Number,
