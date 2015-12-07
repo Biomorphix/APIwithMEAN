@@ -1,17 +1,26 @@
 var express = require('express')
 var bodyParser = require('body-parser');
 var dbControl = require('./db_scripts').dbControl;
+var mongoose = require('mongoose');		
+var path = require("path");
+var mongo_server = 'mongodb://localhost/students';
+mongoose.connect(mongo_server);
+var db = mongoose.connection;
+
 app = express();
 
-console.log(dbControl)
+app.use('/styles',express.static(path.join(__dirname, '/../client/public/styles')));
+app.use('/controllers',express.static(path.join(__dirname, '/../client/public/controllers')));
+app.use('/scripts',express.static(path.join(__dirname, '/../client/public/scripts')));
 
-app.use(express.static(__dirname + '../client/public'));
+
+
 app.use(bodyParser.json());
 
 
 app.get('/contactlist', function (req, res) {
  	 console.log('I received a GET request');
- 	 dbControl.findAllStudents(function(students){
+ 	 dbControl.findAllStudents(db, function(students){
       res.json(students)
  	 })
 })
@@ -19,19 +28,19 @@ app.get('/contactlist', function (req, res) {
 app.post('/contactlist', function(req, res){
 	var req = req.body;
 	console.log(req)
-	dbControl.addStudent(req.first, req.second, req.age, req.sex, req.phone, req.infor, req.web, req.math, req.history, req.db, req.electro);
+	dbControl.addStudent(db, req.first, req.second, req.age, req.sex, req.phone, req.infor, req.web, req.math, req.history, req.db, req.electro);
 	res.json('Added!')
 });
 
 app.delete('/contactlist/:id', function(req, res){
 	var id = req.params.id;
-	dbControl.remove(id);
+	dbControl.remove(db, id);
 	res.json('Deleted!')
 })
 
 app.get('/contactlist/:id', function(req, res){
 	var id = req.params.id;
-	dbControl.findOne(id, function(data){
+	dbControl.findOne(db, id, function(data){
 		res.json(data);
 	})
 })
@@ -39,8 +48,12 @@ app.get('/contactlist/:id', function(req, res){
 app.put('/contactlist/:id', function(req, res){
 	console.log('das')
 	var id = req.params.id;
-	dbControl.update(id, req);
+	dbControl.update(db, id, req);
 	res.json('Updated!')
+})
+
+app.get('/', function(req, res){
+	res.sendFile(path.resolve(__dirname + '/../client/public/index.html'))
 })
 
 

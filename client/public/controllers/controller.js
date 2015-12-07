@@ -1,17 +1,15 @@
 var myApp = angular.module('Web_practice', []);
 
 myApp.controller('AppCtrl', ['$scope', '$http', function($scope, $http) {
-	function refresh(){
-		setTimeout(function(){
-			$http({
-				method: "GET",
-				url: "/contactlist"
-			}).then(function(response){
-				$scope.students = response.data;
-			}, function(){
-				refresh();
-			})
-		}, 30)		
+	function refresh(){		
+		$http({
+			method: "GET",
+			url: "/contactlist"
+		}).then(function(response){
+			$scope.students = response.data;
+		}, function(){
+			console.log('Error is occuer!')
+		})		
 	};
 
 	refresh();
@@ -26,7 +24,6 @@ myApp.controller('AppCtrl', ['$scope', '$http', function($scope, $http) {
 		console.log(id)
 		$http.delete('/contactlist/' + id).success(function(){
 				refresh();
-
 		});	
 	}
 
@@ -53,7 +50,5 @@ myApp.controller('AppCtrl', ['$scope', '$http', function($scope, $http) {
 		$scope.current = student;
 		console.log(student)
 	}
-
-
 
 }]);
