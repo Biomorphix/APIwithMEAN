@@ -33,8 +33,8 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr class="controls">
-						<td><input class="form-control" ng-model="student.first"></td>
+					<tr class="controls">						
+						<td><input name="firstName" class="form-control" ng-model="student.first" ng-minlength="5"></td>
 						<td><input class="form-control" ng-model="student.second"></td>
 						<td><input class="form-control" ng-model="student.age" type="Date"></td>
 						<td>
@@ -51,21 +51,27 @@
 							    <div class="modal-content">
 							      <div class="modal-header">
 							        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-							        <h4 class="modal-title" id="myModalLabel">Поставить оценки по лабораторным</h4>
+							        <h3 class="modal-title" id="myModalLabel">Поставить оценки по лабораторным</h3>
 							      </div>
-							      <div class="modal-body">
-							        		<p>Информатика
-							        		<input type="number" ng-model="student.infor"></p>
-							        		<p>Веб-программирование
-							        		<input type="number" ng-model="student.web"></p>
-							        		<p>Матлогика
-							        		<input type="number" ng-model="student.math"></p>
-							        		<p>История
-							        		<input type="number" ng-model="student.history"></p>
-							        		<p>Базы данных
-							        		<input type="number" ng-model="student.db"></p>
-							        		<p>Электротехника
-							        		<input type="number" ng-model="student.electro"></p>       	
+  
+							      <div class="modal-body lab ">
+							      		<center><h3>Добавить оценку по лабораторной</h3></center>
+							       		<br>
+							       		<h4>Предмет: </h4>
+							       		<input class="form-control" ng-model="lab.subject">
+							       		<h4>Балл: </h4>
+							       		<input class="form-control" ng-model="lab.ball">
+							       		<br>
+							       		<button class="btn btn-info" ng-click="addLab()">Добавить</button>
+										
+							      		<div ng-repeat="lab in labs">
+							      			<h4>{{lab.subject}} : {{lab.ball}} <button class="btn btn-danger" ng-click="deleteLab(lab.id)">Убрать</button>  <button class="btn btn-warning" ng-click="editLab(lab.id)">Изменить</button>   <button class="btn btn-info upd disabled" ng-click="updateLab(lab.id)">Обновить предмет</button></h4>
+							      		</div>
+							      		<ul ng-repeat="lab in current.lab[0].labs">
+								    		<li>{{lab.subject}}:{{lab.ball}}</li>
+								    	</ul>
+							      		<br>				       		
+							       		
 							      </div>
 							      <div class="modal-footer">
 							        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
@@ -73,11 +79,12 @@
 							    </div>
 							  </div>
 							</div>
-						<td><button class="btn btn-primary" ng-click="addStudent()">Добавить студента</button></td>
+						<td><button type="submit" class="btn btn-primary" ng-click="addStudent()">Добавить студента</button></td>
 						<td><button class="btn btn-info updating tools" ng-click="update()">Обновить
 							<span>Заполните формы и нажмите<br> эту кнопку, чтобы обновить данные</span>
 							</button></td>
 						<td>&nbsp;</td>
+						
 					</tr>
 					<div>
 						
@@ -107,13 +114,8 @@
 								    <p>Пол: {{current.sex}}</p>
 								    <p>Номер телефона: {{current.phone}}</p>
 								    <p>Оценки по лабораторным: </p>
-								    <ul>
-								    	<li>Информатика: {{current.labs.informatics}}</li>
-								    	<li>Веб-программирование: {{current.labs.web}}</li>
-								    	<li>Матлогика: {{current.labs.mathlogic}}</li>
-								    	<li>История: {{current.labs.history}}</li>
-								    	<li>Базы данных: {{current.labs.databases}}</li>
-								    	<li>Электротехника: {{current.labs.electro}}</li>
+								    <ul ng-repeat="lab in current.lab[0].labs">
+								    	<li>{{lab.subject}}:{{lab.ball}}</li>
 								    </ul>
 								</div>
 								<div class="modal-footer">
@@ -129,8 +131,9 @@
 				</tbody>	
 			</table>	
 		</div>
-
+	
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0-beta.2/angular.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular-messages.js"></script>
 	<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 	<script src="./controllers/controller.js"></script>

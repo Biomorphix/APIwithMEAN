@@ -25,14 +25,13 @@ function server(){
 	app.get('/contactlist', function (req, res) {
 	 	 console.log('I received a GET request');
 	 	 dbControl.findAllStudents(db, function(students){
-	      res.json(students)
+	     	 res.json(students)
 	 	 })
 	})
 	
 	app.post('/contactlist', function(req, res){
 		var req = req.body;
-		console.log(req)
-		dbControl.addStudent(db, req.first, req.second, req.age, req.sex, req.phone, req.infor, req.web, req.math, req.history, req.db, req.electro);
+		dbControl.addStudent(db, req[0].first, req[0].second, req[0].age, req[0].sex, req[0].phone, req[1]);
 		res.json('Added!')
 	});
 	
@@ -50,7 +49,6 @@ function server(){
 	})
 	
 	app.put('/contactlist/:id', function(req, res){
-		console.log('das')
 		var id = req.params.id;
 		dbControl.update(db, id, req);
 		res.json('Updated!')
